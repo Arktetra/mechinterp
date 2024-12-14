@@ -1,0 +1,12 @@
+[project]
+name = "mechinterp"
+version = "0.1"
+
+[tool.setuptools]
+packages = ["mechinterp"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+ignore = ["E722", "E731", "F722"]
