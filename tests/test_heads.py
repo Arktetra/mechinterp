@@ -1,5 +1,6 @@
 from mechinterp import heads 
 from mechinterp.transformer_utils import get_attn_only_2L_transformer
+from mechinterp.utils import run_and_cache_model_repeated_tokens
 
 class TestHeadDetectors:
     model = get_attn_only_2L_transformer(from_pretrained = True)
@@ -21,4 +22,10 @@ class TestHeadDetectors:
         logits, cache = self.model.run_with_cache(text, remove_batch_dim = True)
         attn_heads = heads.first_attn_detector(self.model, cache)
         assert attn_heads == {0: [3], 1: [4, 10]}
-    
+        
+    def test_induction_attn_detector(self):
+        repeated_tokens, repeated_logits, repeated_cache = run_and_cache_model_repeated_tokens(
+            self.model, seq_len = 50
+        )
+        attn_heads = heads.induction_attn_detector(self.model, repeated_cache)
+        assert attn_heads == {1: [4, 10]}
