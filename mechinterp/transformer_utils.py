@@ -6,7 +6,7 @@ from transformer_lens import (
 
 import torch
 
-def get_attn_only_2L_transformer(from_pretrained: bool = False, device = None):
+def get_attn_only_2L_transformer(from_pretrained: bool = True, device = None):
     cfg = HookedTransformerConfig(
         d_model = 768,
         d_head = 64,
