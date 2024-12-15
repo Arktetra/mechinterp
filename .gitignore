@@ -1,0 +1,10 @@
+# for virtual environment ignore
+venv
+*/bin
+*/etc
+*/include
+*/lib
+*/share
+
+# pip install -e . ignore
+mechinterp.egg-info
