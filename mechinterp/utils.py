@@ -3,6 +3,7 @@ from transformer_lens import (
     HookedTransformer
 )
 from jaxtyping import Float, Int
+from typing import Optional
 
 import torch 
 import torch.nn.functional as F
@@ -59,3 +60,14 @@ def cross_entropy_loss(
         log_probs[:, :-1], -1, tokens[:, 1:]
     )[..., 0]
     return -pred_log_probs.mean()
+
+def get_memory_allocated(device: Optional[str] = "cuda"):
+    """
+    Returns memory allocated in the device (cuda or mps) specified.
+    """
+    if device == "cuda":
+        print("Allocated memory (cuda): ", torch.cuda.memory_allocated() / 1024 ** 2)
+    elif device == "mps":
+        print("Allocated memory (mps): ", torch.mps.current_allocated_memory() / 1024 ** 2)
+    else:
+        raise ValueError(f"Found unknown device {device}.")
