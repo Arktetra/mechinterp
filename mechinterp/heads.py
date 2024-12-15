@@ -1,5 +1,40 @@
+from mechinterp.plotly_utils import imshow
 from transformer_lens import HookedTransformer, ActivationCache
+from typing import Optional
 
+def plot_attn_pattern(
+    cache: ActivationCache, 
+    layer: int, 
+    head_idx: int,
+    tokens: Optional[list[str]] = None,
+    return_type: Optional[str] = None,
+    **kwargs
+) -> Optional[str]:
+    attn_pattern = cache["pattern", layer][head_idx]
+    
+    if tokens is not None:
+        x_tokens = [token + f" ({i})" for i, token in enumerate(tokens)]
+        y_tokens = x_tokens
+    else:
+        x_tokens, y_tokens = None, None
+    
+    fig = imshow(
+        attn_pattern,
+        x = x_tokens,
+        y = y_tokens,
+        **kwargs
+    )
+    
+    fig.update_layout(
+        font_family = "Times New Roman",
+        title_font_family = "Times New Roman",
+    )
+    
+    if return_type is None:
+        fig.show()
+    else:
+        return fig.to_html(full_html = False)
+    
 def current_attn_detector(
     model: HookedTransformer, cache: ActivationCache
 ) -> dict[int, list[int]]:
