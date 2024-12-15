@@ -2,8 +2,10 @@ from transformer_lens import (
     ActivationCache,
     HookedTransformer
 )
+from jaxtyping import Float, Int
 
 import torch 
+import torch.nn.functional as F
 
 def get_log_probs(
     logits: torch.Tensor, tokens: torch.Tensor
@@ -44,3 +46,16 @@ def run_and_cache_model_repeated_tokens(
         remove_batch_dim = True
     )
     return repeated_tokens, repeated_logits, repeated_cache
+
+def cross_entropy_loss(
+    logits: Float[torch.Tensor, "batch seq d_vocab"],
+    tokens: Float[torch.Tensor, "batch seq"]
+) -> torch.Tensor:
+    """
+    Returns cross entropy loss for the given logits and tokens.
+    """
+    log_probs: Float[torch.Tensor, "batch seq d_vocab"] = F.log_softmax(logits, dim = -1)
+    pred_log_probs: Float[torch.Tensor, "batch seq"] = torch.gather(
+        logits[:, :-1], -1, tokens[:, 1:]
+    )[..., 0]
+    return -pred_log_probs.mean()
