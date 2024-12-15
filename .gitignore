@@ -8,3 +8,6 @@ venv
 
 # pip install -e . ignore
 mechinterp.egg-info
+
+# pychache
+**/__pycache__
