@@ -1,0 +1,14 @@
+{% block content %}
+<h1>Induction Heads</h1>
+<div id = "heads">
+    {% for layer in induction_heads %}
+        {% for head in induction_heads.get(layer) %}
+            <button hx-target = "#pattern" hx-post = "/pattern"
+            hx-vals = '{"layer": {{ layer }}, "head": {{ head }}, "title": "Induction Pattern"}'>
+                L{{ layer }}H{{ head }}
+            </button>
+        {% endfor %}
+    {% endfor %}
+</div>
+<div id = "pattern"></pattern>
+{% endblock %}

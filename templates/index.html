@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div id = "main">
+        <button hx-get = "/attention" hx-target = "#task" class = "tasks" type = "button">
+            Attention
+        </button>
+        <button hx-get = "/induction" hx-target = "#task" hx-swap = "beforend"
+        class = "tasks" type = "button">
+            Induction
+        </button>
+    </div>
+    <div id = "task"></div>
+{% endblock %}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel = "stylesheet" href = "/static/site.css">
+    <script src = "/static/js/htmx-1.8.0.js"></script>
+    <script src = "/static/js/_hyperscript-0.9.7.js"></script>
+    <script src = "/static/js/rsjs-menu.js" type = "module"></script>
+    <script defer src = "https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
+    <script src = "/static/htmx.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.2"
+    integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/
+        bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h"
+    crossorigin="anonymous"></script>
+	<title>CirVis</title>
+</head>
+<body hx-boost = "true">
+	<main>
+        <header>
+            <h1>CirVis</h1>
+        </header>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

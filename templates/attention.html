@@ -1,0 +1,14 @@
+{% block content %}
+<h1>Attention Pattern</h1>
+<div id = "heads">
+    {% for layer in range(layers) %}
+        {% for head in range(heads) %}
+            <button hx-vals = '{"layer": {{ layer }}, "head": {{ head }}, "title": "Attention Pattern"}'
+            hx-target = "#pattern"
+            hx-post = "/pattern">L{{ layer }}H{{ head }}</button>
+        {% endfor %}
+        <br>
+    {% endfor %}
+</div>
+<div id = "pattern"></div>
+{% endblock %}
