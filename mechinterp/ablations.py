@@ -22,9 +22,21 @@ def zero_ablation_hook(
     v[:, :, head_idx_to_ablate, :] = 0.0
     return v
 
+def mean_ablation_hook(
+    v: Float[torch.Tensor, "batch seq n_heads d_head"],
+    hook: HookPoint,
+    head_idx_to_ablate: int
+) -> Float[torch.Tensor, "batch seq n_heads d_head"]:
+    """
+    Hook function for performing mean ablation.
+    """
+    v[:, :, head_idx_to_ablate, :] = v.mean()
+    return v
 
 def get_ablation_scores_induction(
-    model: HookedTransformer, tokens: Int[torch.Tensor, "batch seq"]
+    model: HookedTransformer, 
+    tokens: Int[torch.Tensor, "batch seq"],
+    ablation_type: Optional[str] = "zero"
 ) -> Float[torch.Tensor, "n_layers n_heads"]:
     """
     Returns ablation scores for induction.
@@ -41,9 +53,16 @@ def get_ablation_scores_induction(
         logits[:, -seq_len:], tokens[:, -seq_len:]
     )
     
+    if ablation_type == "zero":
+        hook_fn = zero_ablation_hook
+    elif ablation_type == "mean":
+        hook_fn = mean_ablation_hook
+    else:
+        raise ValueError(f"Found unknown ablation type {ablation_type}.")
+    
     for layer in tqdm(range(model.cfg.n_layers)):
         for head in range(model.cfg.n_heads):
-            temp_hook_fn = partial(zero_ablation_hook, head_idx_to_ablate = head)
+            temp_hook_fn = partial(hook_fn, head_idx_to_ablate = head)
             ablated_logits: Float[torch.Tensor, "batch seq d_vocab"] = model.run_with_hooks(
                 tokens,
                 fwd_hooks = [
