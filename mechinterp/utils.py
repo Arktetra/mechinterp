@@ -57,7 +57,7 @@ def cross_entropy_loss(
     """
     log_probs: Float[torch.Tensor, "batch seq d_vocab"] = F.log_softmax(logits, dim = -1)
     pred_log_probs: Float[torch.Tensor, "batch seq"] = torch.gather(
-        log_probs[:, :-1], -1, tokens[:, 1:]
+        log_probs[:, :-1], -1, tokens[:, 1:, None]
     )[..., 0]
     return -pred_log_probs.mean()
 
