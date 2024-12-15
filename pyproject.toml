@@ -1,6 +1,14 @@
 [project]
 name = "mechinterp"
 version = "0.1"
+dependencies = [
+    "flask",
+    "transformerlens",
+    "plotly"
+]
+
+[project.urls]
+Repository = "https://github.com/Arktetra/mechinterp.git"
 
 [tool.setuptools]
 packages = ["mechinterp"]
@@ -10,3 +18,4 @@ line-length = 120
 
 [tool.ruff.lint]
 ignore = ["E722", "E731", "F722"]
+
