@@ -2,12 +2,13 @@ import plotly.express as px
 import transformer_lens.utils as utils
 
 def imshow(tensor, **kwargs):
-    px.imshow(
+    fig = px.imshow(
         utils.to_numpy(tensor),
         color_continuous_midpoint = 0.0,
         color_continuous_scale = "RdBu",
         **kwargs,
-    ).show()
+    )
+    return fig
     
 def line(tensor, **kwargs):
     px.line(
@@ -36,4 +37,3 @@ def plot_loss_difference(log_probs, rep_str, seq_len):
     fig.add_vrect(
         x0=seq_len - 0.5, x1=2 * seq_len - 1, fillcolor="green", opacity=0.2, line_width=0
     )
-    fig.show()
