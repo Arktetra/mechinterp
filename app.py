@@ -1,5 +1,6 @@
 from flask import Flask, redirect, render_template, request
 from jinja2 import Template
+from flask_cors import CORS
 
 from mechinterp.heads import plot_attn_pattern, induction_attn_detector
 from mechinterp.transformer_utils import get_attn_only_2L_transformer
@@ -15,6 +16,7 @@ rep_tokens, rep_logits, rep_cache = run_and_cache_model_repeated_tokens(
 )
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/")
 def index():
@@ -60,3 +62,6 @@ def show_pattern():
     with open("./templates/pattern.html") as template_file:
         template = Template(template_file.read())
         return template.render(plotly_jinja_data)
+    
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8000, debug=True)
