@@ -3,6 +3,7 @@ name = "mechinterp"
 version = "0.1"
 dependencies = [
     "flask",
+    "flask-cors",
     "transformer-lens",
     "plotly"
 ]
